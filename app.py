@@ -37,7 +37,7 @@ if corcel_api_key:
             "miners_to_query": 1,
             "top_k_miners_to_query": 40,
             "ensure_responses": True,
-            "prompt": text_prompt
+            "prompt": text_prompt  # Ensuring prompt is included in the payload
         }
         headers = {
             "accept": "application/json",
@@ -48,16 +48,12 @@ if corcel_api_key:
         response = requests.post(url, json=payload, headers=headers)
         if response.status_code == 200:
             response_data = response.json()
-            # Check if response_data is a list or dictionary and extract text accordingly
-            if isinstance(response_data, dict):
-                ai_text = response_data.get('text', 'No text found')
-            elif isinstance(response_data, list) and len(response_data) > 0:
-                # Assuming the desired text is in the first element of the list
-                ai_text = response_data[0].get('text', 'No text found') if isinstance(response_data[0], dict) else 'Unexpected response format'
+            # Check if response_data is a dictionary and has 'text' key
+            if isinstance(response_data, dict) and 'text' in response_data:
+                st.write('AI-generated Text:')
+                st.write(response_data['text'])
             else:
-                ai_text = 'Unexpected response format'
-            st.write('AI-generated Text:')
-            st.write(ai_text)
+                st.error("No 'text' key found in the response JSON.")
         else:
             st.error(f"Error: Received status code {response.status_code}")
             
