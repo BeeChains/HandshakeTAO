@@ -15,8 +15,14 @@ if corcel_api_key:
     user_chat_input = st.text_input('Enter your message for AI chat:')
     if user_chat_input:
         chat_payload = {'input': user_chat_input, 'apiKey': corcel_api_key}
-        chat_response = requests.post('https://api.corcel.io/v1/chat', json=chat_payload).json()
-        st.write(f"AI Response: {chat_response.get('output', 'No response received')}")
+        chat_response = requests.post('https://api.corcel.io/v1/chat', json=chat_payload)
+if chat_response.status_code == 200:
+    response_data = chat_response.json()
+    ai_response = response_data.get('output', 'No response received')
+else:
+    ai_response = f"Error: Received status code {chat_response.status_code}"
+st.write(f"AI Response: {ai_response}")
+
 
     # Generate Images with Corcel AI
     st.header('Generate Images with Corcel AI')
