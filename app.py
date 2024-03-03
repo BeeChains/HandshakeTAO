@@ -29,5 +29,21 @@ if cli_command:
     st.text_area("Command output:", "Simulated response for: " + cli_command)
 
 # Corcel AI integration for chat and image generation
-st.header('Interact with Corcel AI')
-user
+st.header('Interact with Corcel AI for Chat')
+user_chat_input = st.text_input('Enter your message for AI chat:')
+if user_chat_input:
+    chat_payload = {'input': user_chat_input, 'apiKey': CORCEL_API_KEY}
+    chat_response = requests.post(CORCEL_CHAT_ENDPOINT, json=chat_payload).json()
+    st.write(f"AI Response: {chat_response.get('output', 'No response received')}" if chat_response.get('output') else "No response or error occurred.")
+
+st.header('Generate Images with Corcel AI')
+user_image_prompt = st.text_input('Enter your prompt for AI image generation:')
+if user_image_prompt:
+    image_payload = {'prompt': user_image_prompt, 'apiKey': CORCEL_API_KEY}
+    image_response = requests.post(CORCEL_IMAGE_ENDPOINT, json=image_payload).json()
+    image_url = image_response.get('imageUrl')
+    if image_url:
+        st.image(image_url)
+    else:
+        st.write("No image generated. Please check your prompt or try again.")
+
