@@ -10,6 +10,16 @@ local_ip = socket.gethostbyname(hostname)
 st.write(f"Streamlit is running on IP: {local_ip}")
 st.title('Handshake τao/ AI Assistant')
 
+# Inject CSS to use the background image
+st.markdown("""
+    <style>
+    .reportview-container {
+        background: url("https://arxius.io/i/6360d7ed") no-repeat center center;
+        background-size: cover;
+    }
+    </style>
+    """, unsafe_allow_html=True)
+
 # Read the CSS file
 def load_css(file_name: str):
     with open(file_name, "r") as f:
