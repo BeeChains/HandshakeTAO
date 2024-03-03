@@ -37,7 +37,7 @@ if corcel_api_key:
             "miners_to_query": 1,
             "top_k_miners_to_query": 40,
             "ensure_responses": True,
-            "prompt": text_prompt  # Ensuring prompt is included in the payload
+            "prompt": text_prompt
         }
         headers = {
             "accept": "application/json",
@@ -48,14 +48,16 @@ if corcel_api_key:
         response = requests.post(url, json=payload, headers=headers)
         if response.status_code == 200:
             response_data = response.json()
-            # Check if response_data is a dictionary and has 'text' key
+            st.write('AI-generated Text:')
+            # Check if the response is a dictionary and has the 'text' key
             if isinstance(response_data, dict) and 'text' in response_data:
-                st.write('AI-generated Text:')
                 st.write(response_data['text'])
             else:
-                st.error("No 'text' key found in the response JSON.")
+                # If the response does not have the 'text' key or is not a dict
+                st.write('No "text" key found in the response JSON:', response_data)
         else:
             st.error(f"Error: Received status code {response.status_code}")
+
             
 # Generate Images with Corcel AI
 st.header('Generate Images with Corcel AI')
