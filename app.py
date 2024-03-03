@@ -3,47 +3,44 @@ import requests
 import subprocess
 import shlex
 
-# Importing bittensor is necessary for actual Bittensor operations but not for the CLI simulation here.
-# import bittensor
-
-# Placeholder for actual Bittensor node and wallet initialization
-# wallet = bittensor.wallet()
-
-# Defining API key and endpoints for Corcel
-CORCEL_API_KEY = 'your_corcel_api_key'
-CORCEL_CHAT_ENDPOINT = 'https://api.corcel.io/v1/chat'
-CORCEL_IMAGE_ENDPOINT = 'https://api.corcel.io/v1/image'
-
 st.title('HandshakeTAO Domain Manager with Bittensor and Corcel Integration')
 
-# Bittensor CLI simulation (Read-only operations for safety)
-st.header('Bittensor CLI Simulator')
-cli_command = st.text_input('Enter btcli read-only command (e.g., "btcli status"):')
+# Allow users to input their Corcel API key
+st.header('Enter your Corcel API Key')
+corcel_api_key = st.text_input('Corcel API Key:', type='password')
 
-if cli_command:
-    # For security, we should restrict this to read-only commands in a real app
-    # Here we just simulate the output
-    # In a real scenario, you'd parse the command and ensure it's safe to execute
-    # response = subprocess.run(shlex.split(cli_command), capture_output=True, text=True)
-    # st.text_area("Command output:", response.stdout if response.stdout else "No output or command is restricted.")
-    st.text_area("Command output:", "Simulated response for: " + cli_command)
-
-# Corcel AI integration for chat and image generation
+# Interact with Corcel AI for chat
 st.header('Interact with Corcel AI for Chat')
-user_chat_input = st.text_input('Enter your message for AI chat:')
-if user_chat_input:
-    chat_payload = {'input': user_chat_input, 'apiKey': CORCEL_API_KEY}
-    chat_response = requests.post(CORCEL_CHAT_ENDPOINT, json=chat_payload).json()
-    st.write(f"AI Response: {chat_response.get('output', 'No response received')}" if chat_response.get('output') else "No response or error occurred.")
+if corcel_api_key:
+    user_chat_input = st.text_input('Enter your message for AI chat:')
+    if user_chat_input:
+        chat_payload = {'input': user_chat_input, 'apiKey': corcel_api_key}
+        chat_response = requests.post('https://api.corcel.io/v1/chat', json=chat_payload).json()
+        st.write(f"AI Response: {chat_response.get('output', 'No response received')}")
 
-st.header('Generate Images with Corcel AI')
-user_image_prompt = st.text_input('Enter your prompt for AI image generation:')
-if user_image_prompt:
-    image_payload = {'prompt': user_image_prompt, 'apiKey': CORCEL_API_KEY}
-    image_response = requests.post(CORCEL_IMAGE_ENDPOINT, json=image_payload).json()
-    image_url = image_response.get('imageUrl')
-    if image_url:
-        st.image(image_url)
+    # Generate Images with Corcel AI
+    st.header('Generate Images with Corcel AI')
+    user_image_prompt = st.text_input('Enter your prompt for AI image generation:')
+    if user_image_prompt:
+        image_payload = {'prompt': user_image_prompt, 'apiKey': corcel_api_key}
+        image_response = requests.post('https://api.corcel.io/v1/image', json=image_payload).json()
+        image_url = image_response.get('imageUrl')
+        if image_url:
+            st.image(image_url)
+        else:
+            st.write("No image received. Please check your prompt or try again.")
+else:
+    st.warning('Please enter your Corcel API key to use AI features.')
+
+# Placeholder for Bittensor CLI command execution (ensure safe usage)
+st.header('Bittensor CLI Interaction')
+btcli_command = st.text_input('Enter a safe btcli command to execute:')
+if btcli_command:
+    # Validate command safety (placeholder function - implement actual validation based on your requirements)
+    if 'btcli' in btcli_command and 'transfer' not in btcli_command and btcli_command.startswith('btcli'):
+        # Simulating command execution response (replace with actual subprocess execution in a secure environment)
+        # response = subprocess.run(shlex.split(btcli_command), capture_output=True, text=True)
+        # st.text_area("Command output:", response.stdout if response.stdout else "No output or command is restricted.")
+        st.text_area("Command output:", "Simulated response for: " + btcli_command)
     else:
-        st.write("No image generated. Please check your prompt or try again.")
-
+        st.error("Only safe btcli read-only commands are allowed.")
