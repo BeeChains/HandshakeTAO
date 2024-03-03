@@ -8,6 +8,19 @@ st.title('HandshakeTAO Domain Manager with Bittensor and Corcel Integration')
 st.header('Enter your Corcel API Key')
 corcel_api_key = st.text_input('Corcel API Key:', type='password')
 
+st.title('HandshakeTAO AI Assistant')
+
+st.header('Welcome to your personal AI assistant powered by Corcel and integrated with Bittensor')
+st.write("""
+         This AI assistant can help you with a variety of tasks. 
+         It can generate text, create images based on your prompts, 
+         provide the current $TAO price, and fetch Bittensor network status. 
+         Just enter your Corcel API key to get started.
+         """)
+
+# User inputs their Corcel API key
+corcel_api_key = st.text_input('Enter your Corcel API Key:', type='password')
+
 # Fetch and display the current $TAO price
 st.header('Current $TAO Price')
 try:
@@ -24,22 +37,21 @@ except Exception as e:
 # Bittensor network status section
 st.header('Bittensor Network Status')
 if st.button('Fetch Bittensor Status'):
-    # Assuming the Bittensor wallet is already set up and synched
     try:
         neuron = bittensor.neuron.Neuron()
         neuron_status = neuron.metagraph.sync()
         st.write("Bittensor Metagraph synced successfully.")
-        st.write(neuron_status)
+        st.write(f"Metagraph details: {neuron_status}")
     except Exception as e:
         st.error(f"Failed to fetch Bittensor status: {str(e)}")
 
-# Corcel API interaction for AI-generated text
-st.header('Ask Corcel AI Anything')
-text_prompt = st.text_area('Enter your query or statement:')
-if corcel_api_key and text_prompt:  # Corrected the condition to check 'text_prompt' directly
-    if st.button('Get Answer'):
-        url = "https://api.corcel.io/cortext/text"
-        payload = {
+if corcel_api_key:
+    # AI-powered text generation with Corcel
+    st.header('AI-powered Text Generation')
+    text_prompt = st.text_area('What would you like to write about?')
+    if text_prompt and st.button('Generate Text'):
+        text_url = "https://api.corcel.io/cortext/text"
+        text_payload = {
             "model": "cortext-ultra",
             "prompt": text_prompt,
             "stream": False,
@@ -47,56 +59,34 @@ if corcel_api_key and text_prompt:  # Corrected the condition to check 'text_pro
             "top_k_miners_to_query": 40,
             "ensure_responses": True
         }
-        headers = {
+        text_headers = {
             "accept": "application/json",
             "content-type": "application/json",
             "Authorization": corcel_api_key
         }
 
-        response = requests.post(url, json=payload, headers=headers)
-        if response.status_code == 200:
-            response_data = response.json()
-            try:
-                message_content = response_data[0]['choices'][0]['delta']['content']
-                st.text('AI-generated Response:')
-                st.write(message_content)
-                st.write('Details:')
-                st.write(f"Hotkey: {response_data[0]['hotkey']}")
-                st.write(f"Coldkey: {response_data[0]['coldkey']}")
-                st.write(f"UID: {response_data[0]['uid']}")
-                st.write(f"Incentive: {response_data[0]['incentive']}")
-            except (IndexError, KeyError, TypeError):
-                st.error('Failed to extract message content and details from the response.')
-        else:
-            st.error(f"Error: Received status code {response.status_code}")
-else:
-    st.warning('Please enter your Corcel API key and a query to get an answer.')
-
-# Making the API call to Corcel for text generation
         text_response = requests.post(text_url, json=text_payload, headers=text_headers)
         if text_response.status_code == 200:
+            text_data = text_response.json()
             try:
-                text_data = text_response.json()
                 message_content = text_data[0]['choices'][0]['delta']['content']
-                st.text('AI-generated Text:')
+                st.write('AI-generated Text:')
                 st.write(message_content)
             except (IndexError, KeyError, TypeError):
                 st.error('Failed to extract message content from the text generation response.')
         else:
             st.error(f"Error during text generation: Received status code {text_response.status_code}")
 
-    # Section for generating images with Corcel
-    st.header('Generate Images with Corcel AI')
-    image_prompt = st.text_input('Enter your prompt for AI image generation:')
+    # AI-powered image generation with Corcel
+    st.header('AI-powered Image Generation')
+    image_prompt = st.text_input('What image would you like to create?')
     if image_prompt and st.button('Generate Image'):
-        # Specify the Corcel AI Image endpoint and payload
         image_url = "https://api.corcel.io/v1/image"
         image_payload = {
             "prompt": image_prompt,
             "apiKey": corcel_api_key
         }
 
-        # Making the API call to Corcel for image generation
         image_response = requests.post(image_url, json=image_payload)
         if image_response.status_code == 200:
             image_data = image_response.json()
@@ -106,6 +96,5 @@ else:
                 st.write("Image generation succeeded but no image URL returned.")
         else:
             st.error(f"Error during image generation: Received status code {image_response.status_code}")
-
 else:
-    st.warning('Please enter your Corcel API key to use AI features.')
+    st.warning('Please enter your Corcel API key to activate the AI assistant features.')
