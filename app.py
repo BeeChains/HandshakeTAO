@@ -73,18 +73,23 @@ try:
 except Exception as e:
     st.error(f"An error occurred: {str(e)}")
 
-# Bittensor network status section
-st.header('Bittensor Network Status')
-if st.button('Fetch Bittensor Status'):
-    try:
-        neuron = bittensor.neuron.Neuron()
-        neuron_status = neuron.metagraph.sync()
-        st.write("Bittensor Metagraph synced successfully.")
-        st.write(f"Metagraph details: {neuron_status}")
-    except Exception as e:
-        st.error(f"Failed to fetch Bittensor status: {str(e)}")
+# Assume the user inputs their Corcel API key and other interactions here...
 
-if corcel_api_key:
+# Add a section in your Streamlit frontend to fetch and display Bittensor network status
+st.header('Bittensor Network Status')
+
+if st.button('Fetch Bittensor Status'):
+    # Replace 'backend_url' with the actual URL where your FastAPI backend is hosted
+    backend_url = 'http://localhost:8000/network_status'
+    try:
+        response = requests.get(backend_url)
+        if response.status_code == 200:
+            network_status = response.json()
+            st.write(network_status)
+        else:
+            st.error('Failed to fetch network status from the backend.')
+    except Exception as e:
+        st.error(f"An error occurred: {str(e)}")
     # AI-powered text and image generation with Corcel sections...
 
     # Bittensor subnet-related subdomain generation
