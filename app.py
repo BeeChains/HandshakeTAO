@@ -73,7 +73,7 @@ else:
     st.warning('Please enter your Corcel API key and a query to get an answer.')
 
 # Making the API call to Corcel for text generation
-        text_response = requests.post(text_url, json=text_payload, headers=text_headers)
+text_response = requests.post(text_url, json=text_payload, headers=text_headers)
         if text_response.status_code == 200:
             try:
                 text_data = text_response.json()
