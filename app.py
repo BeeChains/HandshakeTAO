@@ -93,7 +93,7 @@ def get_hns_price():
 # Display the HNS price
 try:
     hns_price = get_hns_price()
-    st.write(f"The current Handshake (HNS) price is: ${hns_price} USD")
+    st.write(f"The current Handshake ($HNS) price is: ${hns_price} USD")
 except Exception as e:
     st.error(f"An error occurred: {str(e)}")
 
