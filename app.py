@@ -10,14 +10,11 @@ local_ip = socket.gethostbyname(hostname)
 st.write(f"Streamlit is running on IP: {local_ip}")
 st.title('Handshake τao/ AI Assistant')
 
-# Define the path to your image
-background_image_path = 'https://arxius.io/i/6360d7ed'
-
-# Custom CSS to inject into the app
+# Custom CSS to inject into the app using an external URL for the background image
 st.markdown(f"""
 <style>
 .reportview-container {{
-    background: url("data:image/png;base64,{background_image_path}");
+    background: url("https://arxius.io/i/6360d7ed");
     background-size: cover;
 }}
 </style>
