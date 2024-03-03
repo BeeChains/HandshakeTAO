@@ -7,7 +7,7 @@ st.title('HandshakeTAO Domain Manager with Bittensor and Corcel Integration')
 st.header('Current $TAO Price')
 try:
     # Replace 'tao' with the actual ID used by the API for $TAO
-    tao_price_response = requests.get('https://api.coingecko.com/api/v3/simple/price?ids=tao&vs_currencies=usd')
+    tao_price_response = requests.get('https://api.coingecko.com/api/v3/simple/price?ids=bittensor&vs_currencies=usd')
     if tao_price_response.status_code == 200:
         tao_price_data = tao_price_response.json()
         tao_price = tao_price_data.get('tao', {}).get('usd', 'Price not available')
