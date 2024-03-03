@@ -18,18 +18,23 @@ st.header('Enter your Corcel API Key')
 corcel_api_key = st.text_input('Corcel API Key:', type='password')
      
 if corcel_api_key:
-    st.header('Ask the AI Assistant')
+    st.header('Ask the AI Assistant about Bittensor')
     user_question = st.text_input('What would you like to ask?')
 
     if user_question and st.button('Submit'):
         corcel_url = "https://api.corcel.io/cortext/text"
         payload = {
             "model": "cortext-ultra",
-            "prompt": user_question,
             "stream": False,
             "miners_to_query": 1,
             "top_k_miners_to_query": 40,
-            "ensure_responses": True
+            "ensure_responses": True,
+            "messages": [
+                {
+                    "role": "user",
+                    "content": user_question
+                }
+            ]
         }
         headers = {
             "accept": "application/json",
@@ -41,16 +46,15 @@ if corcel_api_key:
 
         if response.status_code == 200:
             response_data = response.json()
+            # Displaying the AI's response text
             try:
-                # Display the AI-generated text response
                 ai_response = response_data[0]['choices'][0]['delta']['content']
                 st.write('AI Assistant says:', ai_response)
-
-                # Also display the full JSON response
-                st.subheader('Full JSON Response')
-                st.json(response_data)  # Using st.json to nicely format the JSON output
             except (IndexError, KeyError, TypeError):
                 st.error('Failed to extract the AI response.')
+
+            # Displaying the full JSON response
+            st.json(response_data)
         else:
             st.error(f"Error: Received status code {response.status_code}")
 else:
