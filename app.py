@@ -18,7 +18,7 @@ st.header('Enter your Corcel API Key')
 corcel_api_key = st.text_input('Corcel API Key:', type='password')
      
 if corcel_api_key:
-    st.header('Ask the AI Assistant about Bittensor')
+    st.header('Ask the AI Assistant Anything')
     user_question = st.text_input('What would you like to ask?')
 
     if user_question and st.button('Submit'):
