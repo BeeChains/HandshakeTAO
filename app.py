@@ -2,6 +2,12 @@ import streamlit as st
 import requests
 import bittensor
 import streamlit.components.v1 as components
+import socket
+
+hostname = socket.gethostname()
+local_ip = socket.gethostbyname(hostname)
+
+st.write(f"Streamlit is running on IP: {local_ip}")
 st.title('Handshake τao/ AI Assistant')
 
 st.header('Welcome to your personal AI assistant powered by Corcel and integrated with Bittensor')
