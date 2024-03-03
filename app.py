@@ -58,7 +58,7 @@ if corcel_api_key:
         text_headers = {
             "accept": "application/json",
             st.header('AI-powered Image Generation')
-image_prompt = st.text_input('What image would you like to create?')
+            image_prompt = st.text_input('What image would you like to create?')
 if image_prompt and st.button('Generate Image'):
     image_url = "https://api.corcel.io/v1/image"
     image_payload = {
