@@ -67,7 +67,7 @@ else:
     st.warning('Please enter your Corcel API key to interact with the AI assistant.')
 
 # Fetch and display the current $TAO price
-st.header('Current $TAO and $HNS Price')
+st.header('Current Bittensor and Handshake Price')
 try:
     tao_price_response = requests.get('https://api.coingecko.com/api/v3/simple/price?ids=bittensor&vs_currencies=usd')
     if tao_price_response.status_code == 200:
