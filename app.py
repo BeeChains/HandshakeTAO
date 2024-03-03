@@ -73,9 +73,9 @@ try:
     if tao_price_response.status_code == 200:
         tao_price_data = tao_price_response.json()
         tao_price = tao_price_data.get('bittensor', {}).get('usd', 'Price not available')
-        # Explicitly format the string to include the dollar sign
-        st.write("The current Bittensor $TAO price is: ${} USD".format(tao_price))     
         
+        # Ensure the dollar sign displays correctly by using string formatting
+        st.write("The current Bittensor (TAO) price is: ${} USD".format(tao_price))
     else:
         st.error("Failed to fetch the current $TAO price.")
 except Exception as e:
