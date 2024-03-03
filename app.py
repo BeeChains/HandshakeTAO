@@ -32,7 +32,7 @@ if corcel_api_key:
         payload = {
             "model": "cortext-ultra",
             "stream": False,
-            "miners_to_query": 1,
+            "miners_to_query": 4,
             "top_k_miners_to_query": 40,
             "ensure_responses": True,
             "messages": [
