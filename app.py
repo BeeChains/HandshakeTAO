@@ -93,12 +93,10 @@ def get_hns_price():
 # Display the HNS price
 try:
     hns_price = get_hns_price()
-    st.write(f"The current Handshake ($HNS) price: ${hns_price} USD")
+    # Explicitly format the string to include the dollar sign
+    st.write("The current Handshake (HNS) price is: ${} USD".format(hns_price))     
 except Exception as e:
     st.error(f"An error occurred: {str(e)}")
-
-# Explicitly format the string to include the dollar sign
-    st.write("The current Handshake (HNS) price is: ${} USD".format(hns_price))
 
 # Assume the user inputs their Corcel API key and other interactions here...
 
