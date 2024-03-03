@@ -22,7 +22,6 @@ if corcel_api_key:
     user_question = st.text_input('What would you like to ask?')
 
     if user_question and st.button('Submit'):
-        # Assuming '/cortext/text' is the endpoint for text completions or similar queries
         corcel_url = "https://api.corcel.io/cortext/text"
         payload = {
             "model": "cortext-ultra",
@@ -43,9 +42,13 @@ if corcel_api_key:
         if response.status_code == 200:
             response_data = response.json()
             try:
-                # Assuming the response structure correctly reflects the following path
+                # Display the AI-generated text response
                 ai_response = response_data[0]['choices'][0]['delta']['content']
                 st.write('AI Assistant says:', ai_response)
+
+                # Also display the full JSON response
+                st.subheader('Full JSON Response')
+                st.json(response_data)  # Using st.json to nicely format the JSON output
             except (IndexError, KeyError, TypeError):
                 st.error('Failed to extract the AI response.')
         else:
