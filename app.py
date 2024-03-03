@@ -107,4 +107,9 @@ tweet_hashtag_hns = 'HNS'
 tweet_url_hns = f"https://twitter.com/intent/tweet?text={tweet_text_hns}&hashtags={tweet_hashtag_hns}"
 components.html(f'<a href="{tweet_url_hns}" target="_blank" class="twitter-hashtag-button" data-show-count="false">Tweet #{tweet_hashtag_hns}</a>', height=30)
 
+# Twitter follow button for @innerinetco
+st.markdown('#### Follow @innerinetco on Twitter')
+twitter_user = 'innerinetco'
+components.html(f'<a href="https://twitter.com/{twitter_user}?ref_src=twsrc%5Etfw" target="_blank" class="twitter-follow-button" data-show-count="false">Follow @{twitter_user}</a>', height=30)
+
 
