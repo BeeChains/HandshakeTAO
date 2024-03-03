@@ -35,7 +35,7 @@ if st.button('Fetch Bittensor Status'):
 
 # Corcel API interaction for AI-generated text
 st.header('Ask Corcel AI Anything')
-       text_prompt = st.text_area('Enter your query or statement:')
+text_prompt = st.text_area('Enter your query or statement:')
 if corcel_api_key and text_prompt:  # Corrected the condition to check 'text_prompt' directly
     if st.button('Get Answer'):
         url = "https://api.corcel.io/cortext/text"
