@@ -10,15 +10,13 @@ local_ip = socket.gethostbyname(hostname)
 st.write(f"Streamlit is running on IP: {local_ip}")
 st.title('Handshake τao/ AI Assistant')
 
-# Custom CSS to inject into the app using an external URL for the background image
-st.markdown(f"""
-<style>
-.reportview-container {{
-    background: url("https://arxius.io/i/6360d7ed");
-    background-size: cover;
-}}
-</style>
-""", unsafe_allow_html=True)
+# Read the CSS file
+def load_css(file_name: str):
+    with open(file_name, "r") as f:
+        st.markdown(f"<style>{f.read()}</style>", unsafe_allow_html=True)
+
+# Load and inject the CSS file
+load_css('styles.css')
 
 st.header('Welcome to your personal AI assistant powered by Corcel and integrated with Bittensor')
 st.write("""
