@@ -4,12 +4,6 @@ import requests
 
 st.title('HandshakeTAO Domain Manager with Bittensor Integration')
 
-# Initialize Bittensor wallet
-wallet = bittensor.wallet()
-
-st.header('Bittensor Wallet Information')
-st.write(f"Your Bittensor wallet coldkey: {wallet.coldkeypub.ss58_address}")
-
 # Fetch and display the current $TAO price
 st.header('Current $TAO Price')
 try:
