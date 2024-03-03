@@ -9,13 +9,13 @@ st.header('Enter your Corcel API Key')
 corcel_api_key = st.text_input('Corcel API Key:', type='password')
 
 # Fetch and display the current $TAO price
-st.header('Current $ TAO Price')
+st.header('Current $TAO Price')
 try:
     tao_price_response = requests.get('https://api.coingecko.com/api/v3/simple/price?ids=bittensor&vs_currencies=usd')
     if tao_price_response.status_code == 200:
         tao_price_data = tao_price_response.json()
         tao_price = tao_price_data.get('bittensor', {}).get('usd', 'Price not available')
-        st.write(f"The current price of $TAO: ${tao_price} USD")
+        st.write(f"The current price of $ TAO: ${tao_price} USD")
     else:
         st.error("Failed to fetch the current $TAO price.")
 except Exception as e:
