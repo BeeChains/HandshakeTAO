@@ -16,6 +16,46 @@ st.write("""
 # User inputs their Corcel API key
 corcel_api_key = st.text_input('Enter your Corcel API Key:', type='password')
 
+if corcel_api_key:
+    # User Query Input
+    st.header("Ask Your AI Assistant")
+    user_query = st.text_input("Type your question here:")
+
+    if user_query:
+        answer_button = st.button('Get Answer')
+        if answer_button:
+            # Assume you use the same Corcel endpoint for answering user queries
+            query_url = "https://api.corcel.io/cortext/text"
+            query_payload = {
+                "model": "cortext-ultra",
+                "prompt": user_query,
+                "stream": False,
+                "miners_to_query": 1,
+                "top_k_miners_to_query": 40,
+                "ensure_responses": True
+            }
+            query_headers = {
+                "accept": "application/json",
+                "content-type": "application/json",
+                "Authorization": corcel_api_key
+            }
+
+            # Sending the user's question to Corcel's API
+            query_response = requests.post(query_url, json=query_payload, headers=query_headers)
+
+            if query_response.status_code == 200:
+                query_data = query_response.json()
+                try:
+                    answer_content = query_data[0]['choices'][0]['delta']['content']
+                    st.write('AI-generated Answer:')
+                    st.write(answer_content)
+                except (IndexError, KeyError, TypeError):
+                    st.error('Failed to extract answer content from the response.')
+            else:
+                st.error(f"Error: Received status code {query_response.status_code}")
+else:
+    st.warning('Please enter your Corcel API key to activate the AI assistant features.')
+
 # Fetch and display the current $TAO price
 st.header('Current $TAO Price')
 try:
