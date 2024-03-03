@@ -80,7 +80,7 @@ st.header('Bittensor Network Status')
 
 if st.button('Fetch Bittensor Status'):
     # Replace 'backend_url' with the actual URL where your FastAPI backend is hosted
-    backend_url = 'http://localhost:8000/network_status'
+    backend_url = 'http://localhost:8001/network_status'
     try:
         response = requests.get(backend_url)
         if response.status_code == 200:
