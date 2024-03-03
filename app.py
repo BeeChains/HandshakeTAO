@@ -57,7 +57,25 @@ if corcel_api_key:
         }
         text_headers = {
             "accept": "application/json",
-            "content-type": "application/json",
+            st.header('AI-powered Image Generation')
+image_prompt = st.text_input('What image would you like to create?')
+if image_prompt and st.button('Generate Image'):
+    image_url = "https://api.corcel.io/v1/image"
+    image_payload = {
+        "prompt": image_prompt,
+        "apiKey": corcel_api_key
+    }
+
+    image_response = requests.post(image_url, json=image_payload)
+    if image_response.status_code == 200:
+        image_data = image_response.json()
+        if 'imageUrl' in image_data and image_data['imageUrl']:
+            st.image(image_data['imageUrl'])
+        else:
+            st.write("Image generation succeeded, but no image URL was returned.")
+    else:
+        st.error(f"Error during image generation: Received status code {image_response.status_code}. Response: {image_response.text}")
+"content-type": "application/json",
             "Authorization": corcel_api_key
         }
 
@@ -72,25 +90,4 @@ if corcel_api_key:
                 st.error('Failed to extract message content from the text generation response.')
         else:
             st.error(f"Error during text generation: Received status code {text_response.status_code}")
-
-    # AI-powered image generation with Corcel
-    st.header('AI-powered Image Generation')
-    image_prompt = st.text_input('What image would you like to create?')
-    if image_prompt and st.button('Generate Image'):
-        image_url = "https://api.corcel.io/v1/image"
-        image_payload = {
-            "prompt": image_prompt,
-            "apiKey": corcel_api_key
-        }
-
-        image_response = requests.post(image_url, json=image_payload)
-        if image_response.status_code == 200:
-            image_data = image_response.json()
-            if 'imageUrl' in image_data and image_data['imageUrl']:
-                st.image(image_data['imageUrl'])
-            else:
-                st.write("Image generation succeeded but no image URL returned.")
-        else:
-            st.error(f"Error during image generation: Received status code {image_response.status_code}")
-else:
-    st.warning('Please enter your Corcel API key to activate the AI assistant features.')
+    
