@@ -13,7 +13,10 @@ st.write("""
          Just enter your Corcel API key to get started.
          """)
 
-     # User inputs their Corcel API key
+# User inputs their Corcel API key
+st.header('Enter your Corcel API Key')
+corcel_api_key = st.text_input('Corcel API Key:', type='password')
+     
 if corcel_api_key:
     st.header('Ask the AI Assistant')
     user_question = st.text_input('What would you like to ask?')
