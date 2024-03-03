@@ -6,12 +6,11 @@ st.title('HandshakeTAO Domain Manager with Bittensor and Corcel Integration')
 # Fetch and display the current $TAO price
 st.header('Current $TAO Price')
 try:
-    # Replace 'tao' with the actual ID used by the API for $TAO
     tao_price_response = requests.get('https://api.coingecko.com/api/v3/simple/price?ids=bittensor&vs_currencies=usd')
     if tao_price_response.status_code == 200:
         tao_price_data = tao_price_response.json()
         tao_price = tao_price_data.get('bittensor', {}).get('usd', 'Price not available')
-        st.write(f"The current price of $ TAO: ${tao_price} USD")
+        st.write(f"The current price of $TAO: ${tao_price} USD")
     else:
         st.error("Failed to fetch the current $TAO price.")
 except Exception as e:
@@ -20,19 +19,16 @@ except Exception as e:
 # Section for registering a subdomain on τao/
 st.header('Register a Subdomain on τao/')
 subdomain = st.text_input('Enter the subdomain you wish to register (e.g., yourname):')
-if subdomain:
-    register_button = st.button('Register Subdomain')
-    if register_button:
-        # Here you would include logic to register the subdomain using your backend system or API
-        # For demonstration, we simulate successful registration:
-        st.success(f"The subdomain {subdomain}.τao has been successfully registered!")
+if subdomain and st.button('Register Subdomain'):
+    # Simulate successful registration for demonstration purposes
+    st.success(f"The subdomain {subdomain}.τao has been successfully registered!")
 
 # Corcel API interaction for AI-generated text
 st.header('Generate AI Text with Corcel')
-api_key = st.text_input('Enter your Corcel API Key:', type='password')
+corcel_api_key = st.text_input('Enter your Corcel API Key:', type='password')
 
-if api_key:
-    st.text_area('Enter text prompt:', 'Once upon a time')
+if corcel_api_key:
+    text_prompt = st.text_area('Enter text prompt:', 'Once upon a time')
     if st.button('Generate Text'):
         url = "https://api.corcel.io/cortext/text"
         payload = {
@@ -45,7 +41,7 @@ if api_key:
         headers = {
             "accept": "application/json",
             "content-type": "application/json",
-            "Authorization": api_key  # Using the user-provided API key
+            "Authorization": corcel_api_key  # Corrected variable usage
         }
 
         response = requests.post(url, json=payload, headers=headers)
@@ -55,7 +51,6 @@ if api_key:
             st.write(response.json()['text'])  # Display the generated text
         else:
             st.error(f"Error: Received status code {response.status_code}")
-
 # Generate Images with Corcel AI
 st.header('Generate Images with Corcel AI')
 if corcel_api_key:
