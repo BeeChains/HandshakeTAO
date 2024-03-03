@@ -24,17 +24,17 @@ else:
 st.write(f"AI Response: {ai_response}")
 
 
-    # Generate Images with Corcel AI
-    st.header('Generate Images with Corcel AI')
+# Generate Images with Corcel AI
+st.header('Generate Images with Corcel AI')
     user_image_prompt = st.text_input('Enter your prompt for AI image generation:')
-    if user_image_prompt:
+if user_image_prompt:
         image_payload = {'prompt': user_image_prompt, 'apiKey': corcel_api_key}
         image_response = requests.post('https://api.corcel.io/v1/image', json=image_payload).json()
         image_url = image_response.get('imageUrl')
-        if image_url:
-            st.image(image_url)
-        else:
-            st.write("No image received. Please check your prompt or try again.")
+if image_url:
+st.image(image_url)
+else:
+st.write("No image received. Please check your prompt or try again.")
 else:
     st.warning('Please enter your Corcel API key to use AI features.')
 
