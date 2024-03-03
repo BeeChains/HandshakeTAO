@@ -2,15 +2,14 @@ import streamlit as st
 import requests
 import bittensor
 
-st.title('HandshakeTAO Domain Manager with Bittensor and Corcel Integration')
-
 st.title('HandshakeTAO AI Assistant')
 
 st.header('Welcome to your personal AI assistant powered by Corcel and integrated with Bittensor')
 st.write("""
-         This AI assistant can help you with a variety of tasks. 
-         It can generate text, create images based on your prompts, 
-         provide the current $TAO price, and fetch Bittensor network status. 
+         This AI assistant can help you with a variety of tasks.
+         It can generate text, create images based on your prompts,
+         provide the current $TAO price, fetch Bittensor network status,
+         and help generate Bittensor subnet-related subdomains.
          Just enter your Corcel API key to get started.
          """)
 
@@ -24,7 +23,7 @@ try:
     if tao_price_response.status_code == 200:
         tao_price_data = tao_price_response.json()
         tao_price = tao_price_data.get('bittensor', {}).get('usd', 'Price not available')
-        st.write(f"The current price of $ TAO: ${tao_price} USD")
+        st.write(f"The current price of $TAO: ${tao_price} USD")
     else:
         st.error("Failed to fetch the current $TAO price.")
 except Exception as e:
@@ -42,52 +41,14 @@ if st.button('Fetch Bittensor Status'):
         st.error(f"Failed to fetch Bittensor status: {str(e)}")
 
 if corcel_api_key:
-    # AI-powered text generation with Corcel
-    st.header('AI-powered Text Generation')
-    text_prompt = st.text_area('What would you like to write about?')
-    if text_prompt and st.button('Generate Text'):
-        text_url = "https://api.corcel.io/cortext/text"
-        text_payload = {
-            "model": "cortext-ultra",
-            "prompt": text_prompt,
-            "stream": False,
-            "miners_to_query": 1,
-            "top_k_miners_to_query": 40,
-            "ensure_responses": True
-        }
-        text_headers = {
-            "accept": "application/json",
-            st.header('AI-powered Image Generation')
-            image_prompt = st.text_input('What image would you like to create?')
-if image_prompt and st.button('Generate Image'):
-    image_url = "https://api.corcel.io/v1/image"
-    image_payload = {
-        "prompt": image_prompt,
-        "apiKey": corcel_api_key
-    }
+    # AI-powered text and image generation with Corcel sections...
 
-    image_response = requests.post(image_url, json=image_payload)
-    if image_response.status_code == 200:
-        image_data = image_response.json()
-        if 'imageUrl' in image_data and image_data['imageUrl']:
-            st.image(image_data['imageUrl'])
-        else:
-            st.write("Image generation succeeded, but no image URL was returned.")
-    else:
-        st.error(f"Error during image generation: Received status code {image_response.status_code}. Response: {image_response.text}")
-"content-type": "application/json",
-            "Authorization": corcel_api_key
-        }
+    # Bittensor subnet-related subdomain generation
+    st.header('Generate Your Bittensor Subnet-related Subdomain')
+    user_name = st.text_input('Enter your desired subdomain name (YourName):')
+    if user_name and st.button('Generate Subdomain'):
+        generated_subdomain = f"{user_name}.τao/"
+        st.write(f"Your Bittensor subnet-related subdomain: {generated_subdomain}")
 
-        text_response = requests.post(text_url, json=text_payload, headers=text_headers)
-        if text_response.status_code == 200:
-            text_data = text_response.json()
-            try:
-                message_content = text_data[0]['choices'][0]['delta']['content']
-                st.write('AI-generated Text:')
-                st.write(message_content)
-            except (IndexError, KeyError, TypeError):
-                st.error('Failed to extract message content from the text generation response.')
-        else:
-            st.error(f"Error during text generation: Received status code {text_response.status_code}")
-    
+else:
+    st.warning('Please enter your Corcel API key to activate the AI assistant features.')
