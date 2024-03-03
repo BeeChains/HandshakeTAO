@@ -28,7 +28,7 @@ st.header('Generate AI Text with Corcel')
 corcel_api_key = st.text_input('Enter your Corcel API Key:', type='password')
 
 if corcel_api_key:
-    text_prompt = st.text_area('Enter text prompt:', 'Once upon a time')
+    text_prompt = st.text_area('Enter text prompt:')
     if st.button('Generate Text'):
         url = "https://api.corcel.io/cortext/text"
         payload = {
@@ -36,19 +36,28 @@ if corcel_api_key:
             "stream": False,
             "miners_to_query": 1,
             "top_k_miners_to_query": 40,
-            "ensure_responses": True
+            "ensure_responses": True,
+            "prompt": text_prompt
         }
         headers = {
             "accept": "application/json",
             "content-type": "application/json",
-            "Authorization": corcel_api_key  # Corrected variable usage
+            "Authorization": corcel_api_key
         }
 
         response = requests.post(url, json=payload, headers=headers)
-
         if response.status_code == 200:
-            st.text('AI-generated Text:')
-            st.write(response.json()['text'])  # Display the generated text
+            response_data = response.json()
+            # Check if response_data is a list or dictionary and extract text accordingly
+            if isinstance(response_data, dict):
+                ai_text = response_data.get('text', 'No text found')
+            elif isinstance(response_data, list) and len(response_data) > 0:
+                # Assuming the desired text is in the first element of the list
+                ai_text = response_data[0].get('text', 'No text found') if isinstance(response_data[0], dict) else 'Unexpected response format'
+            else:
+                ai_text = 'Unexpected response format'
+            st.write('AI-generated Text:')
+            st.write(ai_text)
         else:
             st.error(f"Error: Received status code {response.status_code}")
             
