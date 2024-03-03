@@ -51,6 +51,7 @@ if corcel_api_key:
             st.write(response.json()['text'])  # Display the generated text
         else:
             st.error(f"Error: Received status code {response.status_code}")
+            
 # Generate Images with Corcel AI
 st.header('Generate Images with Corcel AI')
 if corcel_api_key:
