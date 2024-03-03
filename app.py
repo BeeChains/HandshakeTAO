@@ -14,7 +14,7 @@ st.header('Welcome to your personal AI assistant powered by Corcel and integrate
 st.write("""
          This AI assistant can help you with a variety of tasks.
          It can generate text, create images based on your prompts,
-         provide the current '$TAO' price, '$HNS' price, fetch Bittensor network status,
+         provide the current $TAO price, $HNS price, fetch Bittensor network status,
          and help generate Bittensor subnet-related subdomains.
          Just enter your Corcel API key to get started.
          """)
@@ -96,6 +96,9 @@ try:
     st.write(f"The current Handshake ($HNS) price: ${hns_price} USD")
 except Exception as e:
     st.error(f"An error occurred: {str(e)}")
+
+# Explicitly format the string to include the dollar sign
+    st.write("The current Handshake (HNS) price is: ${} USD".format(hns_price))
 
 # Assume the user inputs their Corcel API key and other interactions here...
 
