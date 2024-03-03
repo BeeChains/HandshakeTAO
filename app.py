@@ -12,29 +12,32 @@ corcel_api_key = st.text_input('Corcel API Key:', type='password')
 # Interact with Corcel AI for chat
 st.header('Interact with Corcel AI for Chat')
 if corcel_api_key:
-user_chat_input = st.text_input('Enter your message for AI chat:')
-if user_chat_input:
-chat_payload = {'input': user_chat_input, 'apiKey': corcel_api_key}
-chat_response = requests.post('https://api.corcel.io/v1/chat', json=chat_payload)
-if chat_response.status_code == 200:
-    response_data = chat_response.json()
-    ai_response = response_data.get('output', 'No response received')
-else:
-    ai_response = f"Error: Received status code {chat_response.status_code}"
-st.write(f"AI Response: {ai_response}")
-
+    user_chat_input = st.text_input('Enter your message for AI chat:')
+    if user_chat_input:
+        chat_payload = {'input': user_chat_input, 'apiKey': corcel_api_key}
+        chat_response = requests.post('https://api.corcel.io/v1/chat', json=chat_payload)
+        if chat_response.status_code == 200:
+            response_data = chat_response.json()
+            ai_response = response_data.get('output', 'No response received')
+        else:
+            ai_response = f"Error: Received status code {chat_response.status_code}"
+        st.write(f"AI Response: {ai_response}")
 
 # Generate Images with Corcel AI
 st.header('Generate Images with Corcel AI')
+if corcel_api_key:
     user_image_prompt = st.text_input('Enter your prompt for AI image generation:')
-if user_image_prompt:
+    if user_image_prompt:
         image_payload = {'prompt': user_image_prompt, 'apiKey': corcel_api_key}
-        image_response = requests.post('https://api.corcel.io/v1/image', json=image_payload).json()
-        image_url = image_response.get('imageUrl')
-if image_url:
-st.image(image_url)
-else:
-st.write("No image received. Please check your prompt or try again.")
+        image_response = requests.post('https://api.corcel.io/v1/image', json=image_payload)
+        if image_response.status_code == 200:
+            image_url = image_response.json().get('imageUrl')
+            if image_url:
+                st.image(image_url)
+            else:
+                st.write("No image received. Please check your prompt or try again.")
+        else:
+            st.write(f"Error: Received status code {image_response.status_code}")
 else:
     st.warning('Please enter your Corcel API key to use AI features.')
 
