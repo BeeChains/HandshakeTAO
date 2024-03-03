@@ -15,7 +15,7 @@ try:
     if tao_price_response.status_code == 200:
         tao_price_data = tao_price_response.json()
         tao_price = tao_price_data.get('bittensor', {}).get('usd', 'Price not available')
-        st.write(f"The current price of $$TAO: ${tao_price} USD")
+        st.write(f"The current price of $TAO: ${tao_price} USD")
     else:
         st.error("Failed to fetch the current $TAO price.")
 except Exception as e:
