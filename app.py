@@ -2,7 +2,7 @@ import streamlit as st
 import requests
 import bittensor
 import streamlit.components.v1 as components
-st.title('Handshake τao AI Assistant')
+st.title('Handshake τao/ AI Assistant')
 
 st.header('Welcome to your personal AI assistant powered by Corcel and integrated with Bittensor')
 st.write("""
