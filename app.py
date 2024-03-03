@@ -32,20 +32,34 @@ if subdomain:
 st.header('Enter your Corcel API Key')
 corcel_api_key = st.text_input('Corcel API Key:', type='password')
 
-# Interact with Corcel AI for chat
-st.header('Interact with Corcel AI for Chat')
-if corcel_api_key:
-    user_chat_input = st.text_input('Enter your message for AI chat:')
-    if user_chat_input:
-        chat_payload = {'input': user_chat_input, 'apiKey': corcel_api_key}
-        chat_response = requests.post('https://api.corcel.io/v1/chat', json=chat_payload)
+# Corcel API interaction for AI-generated text
+st.header('Generate AI Text with Corcel')
+api_key = st.text_input('Enter your Corcel API Key:', type='password')
 
-        if chat_response.status_code == 200:
-            response_data = chat_response.json()
-            ai_response = response_data.get('output', 'No response received')
-            st.write(f"AI Response: {ai_response}")
+if api_key:
+    st.text_area('Enter text prompt:', 'Once upon a time')
+    if st.button('Generate Text'):
+        url = "https://api.corcel.io/cortext/text"
+        payload = {
+            "model": "cortext-ultra",
+            "stream": False,
+            "miners_to_query": 1,
+            "top_k_miners_to_query": 40,
+            "ensure_responses": True
+        }
+        headers = {
+            "accept": "application/json",
+            "content-type": "application/json",
+            "Authorization": api_key  # Using the user-provided API key
+        }
+
+        response = requests.post(url, json=payload, headers=headers)
+
+        if response.status_code == 200:
+            st.text('AI-generated Text:')
+            st.write(response.json()['text'])  # Display the generated text
         else:
-            st.error(f"Error: Received status code {chat_response.status_code}")
+            st.error(f"Error: Received status code {response.status_code}")
 
 # Generate Images with Corcel AI
 st.header('Generate Images with Corcel AI')
