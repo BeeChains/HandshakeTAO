@@ -14,47 +14,41 @@ st.write("""
          """)
 
 # User inputs their Corcel API key
-corcel_api_key = st.text_input('Enter your Corcel API Key:', type='password')
-
 if corcel_api_key:
-    # User Query Input
-    st.header("Ask Your AI Assistant")
-    user_query = st.text_input("Type your question here:")
+    st.header('Ask the AI Assistant')
+    user_question = st.text_input('What would you like to ask?')
 
-    if user_query:
-        answer_button = st.button('Get Answer')
-        if answer_button:
-            # Assume you use the same Corcel endpoint for answering user queries
-            query_url = "https://api.corcel.io/cortext/text"
-            query_payload = {
-                "model": "cortext-ultra",
-                "prompt": user_query,
-                "stream": False,
-                "miners_to_query": 1,
-                "top_k_miners_to_query": 40,
-                "ensure_responses": True
-            }
-            query_headers = {
-                "accept": "application/json",
-                "content-type": "application/json",
-                "Authorization": corcel_api_key
-            }
+    if user_question and st.button('Submit'):
+        # Assuming '/cortext/text' is the endpoint for text completions or similar queries
+        corcel_url = "https://api.corcel.io/cortext/text"
+        payload = {
+            "model": "cortext-ultra",
+            "prompt": user_question,
+            "stream": False,
+            "miners_to_query": 1,
+            "top_k_miners_to_query": 40,
+            "ensure_responses": True
+        }
+        headers = {
+            "accept": "application/json",
+            "content-type": "application/json",
+            "Authorization": corcel_api_key
+        }
 
-            # Sending the user's question to Corcel's API
-            query_response = requests.post(query_url, json=query_payload, headers=query_headers)
+        response = requests.post(corcel_url, json=payload, headers=headers)
 
-            if query_response.status_code == 200:
-                query_data = query_response.json()
-                try:
-                    answer_content = query_data[0]['choices'][0]['delta']['content']
-                    st.write('AI-generated Answer:')
-                    st.write(answer_content)
-                except (IndexError, KeyError, TypeError):
-                    st.error('Failed to extract answer content from the response.')
-            else:
-                st.error(f"Error: Received status code {query_response.status_code}")
+        if response.status_code == 200:
+            response_data = response.json()
+            try:
+                # Assuming the response structure correctly reflects the following path
+                ai_response = response_data[0]['choices'][0]['delta']['content']
+                st.write('AI Assistant says:', ai_response)
+            except (IndexError, KeyError, TypeError):
+                st.error('Failed to extract the AI response.')
+        else:
+            st.error(f"Error: Received status code {response.status_code}")
 else:
-    st.warning('Please enter your Corcel API key to activate the AI assistant features.')
+    st.warning('Please enter your Corcel API key to interact with the AI assistant.')
 
 # Fetch and display the current $TAO price
 st.header('Current $TAO Price')
