@@ -27,11 +27,6 @@ if subdomain:
         # For demonstration, we simulate successful registration:
         st.success(f"The subdomain {subdomain}.τao has been successfully registered!")
 
-
-# Allow users to input their Corcel API key
-st.header('Enter your Corcel API Key')
-corcel_api_key = st.text_input('Corcel API Key:', type='password')
-
 # Corcel API interaction for AI-generated text
 st.header('Generate AI Text with Corcel')
 api_key = st.text_input('Enter your Corcel API Key:', type='password')
