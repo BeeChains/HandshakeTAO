@@ -12,10 +12,10 @@ corcel_api_key = st.text_input('Corcel API Key:', type='password')
 # Interact with Corcel AI for chat
 st.header('Interact with Corcel AI for Chat')
 if corcel_api_key:
-    user_chat_input = st.text_input('Enter your message for AI chat:')
-    if user_chat_input:
-        chat_payload = {'input': user_chat_input, 'apiKey': corcel_api_key}
-        chat_response = requests.post('https://api.corcel.io/v1/chat', json=chat_payload)
+user_chat_input = st.text_input('Enter your message for AI chat:')
+if user_chat_input:
+chat_payload = {'input': user_chat_input, 'apiKey': corcel_api_key}
+chat_response = requests.post('https://api.corcel.io/v1/chat', json=chat_payload)
 if chat_response.status_code == 200:
     response_data = chat_response.json()
     ai_response = response_data.get('output', 'No response received')
