@@ -79,6 +79,24 @@ try:
 except Exception as e:
     st.error(f"An error occurred: {str(e)}")
 
+# Function to fetch Handshake (HNS) price
+def get_hns_price():
+    url = "https://api.coingecko.com/api/v3/simple/price?ids=handshake&vs_currencies=usd"
+    response = requests.get(url)
+    if response.status_code == 200:
+        data = response.json()
+        # The 'handshake' key is used because that's the ID for Handshake on CoinGecko
+        return data['handshake']['usd']
+    else:
+        raise Exception('Failed to retrieve data from CoinGecko.')
+
+# Display the HNS price
+try:
+    hns_price = get_hns_price()
+    st.write(f"The current Handshake (HNS) price is: ${hns_price} USD")
+except Exception as e:
+    st.error(f"An error occurred: {str(e)}")
+
 # Assume the user inputs their Corcel API key and other interactions here...
 
 # Add a section in your Streamlit frontend to fetch and display Bittensor network status
