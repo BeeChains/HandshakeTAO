@@ -4,10 +4,6 @@ import bittensor
 
 st.title('HandshakeTAO Domain Manager with Bittensor and Corcel Integration')
 
-# User inputs their Corcel API key
-st.header('Enter your Corcel API Key')
-corcel_api_key = st.text_input('Corcel API Key:', type='password')
-
 st.title('HandshakeTAO AI Assistant')
 
 st.header('Welcome to your personal AI assistant powered by Corcel and integrated with Bittensor')
