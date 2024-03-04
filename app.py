@@ -2,35 +2,6 @@ import streamlit as st
 import requests
 import bittensor
 import streamlit.components.v1 as components
-import socket
-import openai
-
-# Replace 'your-api-key' with your actual OpenAI API key
-openai.api_key = 'your-api-key'
-
-def query_model(prompt, model_name):
-    """
-    Query the fine-tuned model with a given prompt.
-
-    :param prompt: The input text prompt to send to the model.
-    :param model_name: The name of the fine-tuned model.
-    :return: The model's completion text.
-    """
-    response = openai.Completion.create(
-        model=model_name,
-        prompt=prompt,
-        max_tokens=150
-    )
-    return response.choices[0].text.strip()
-
-st.title('Ask Our AI')
-
-user_input = st.text_input('Type your question:')
-
-if user_input:
-    # Replace 'your-finetuned-model' with your model's identifier
-    model_response = query_model(user_input, 'ft:gpt-3.5-turbo-0125:innerinetwork:innerigpt-1000:8yVeanmg')
-    st.write(model_response)
 
 hostname = socket.gethostname()
 local_ip = socket.gethostbyname(hostname)
