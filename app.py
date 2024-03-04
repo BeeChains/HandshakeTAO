@@ -6,7 +6,7 @@ import socket
 import openai
 
 # Replace 'your-api-key' with your actual OpenAI API key
-openai_api_key = 'your-api-key'
+openai.api_key = 'your-api-key'
 
 def query_model(prompt, model_name):
     """
