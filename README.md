@@ -28,6 +28,7 @@ This Streamlit application serves as an interface or idea for managing subdomain
 - **Subdomain Registration**: Users can register any available `YourName.τao` subdomain.
 - **Management Interface**: Provides a simple interface for managing existing subdomains.
 
+## [HandshakeTAO Streamlit, Bittensor, Corcel, build app in 3 steps](https://innerinetcompany.com/2024/03/03/handshaketao-streamlit-bittensor-corcel-build-app-in-3-steps/)
 ## Getting Started
 
 ### Prerequisites
