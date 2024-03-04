@@ -1,31 +1,5 @@
 import bittensor
 from fastapi import FastAPI
-from flask import Flask, request, jsonify
-import openai
-
-app = Flask(__name__)
-
-openai.api_key = 'your-api-key'
-
-def query_model(prompt, model_name):
-    response = openai.Completion.create(
-        model=model_name,
-        prompt=prompt,
-        max_tokens=150
-    )
-    return response.choices[0].text.strip()
-
-@app.route('/ask-ai', methods=['POST'])
-def ask_ai():
-    data = request.json
-    prompt = data.get('prompt')
-    model_response = query_model(prompt, 'your-finetuned-model')
-    return jsonify({'response': model_response})
-
-if __name__ == '__main__':
-    app.run(debug=True)
-
-
 app = FastAPI()
 
 # Initialize a Bittensor wallet and neuron
