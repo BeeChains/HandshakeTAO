@@ -148,4 +148,16 @@ st.markdown('#### Follow @innerinetco on Twitter')
 twitter_user = 'innerinetco'
 components.html(f'<a href="https://twitter.com/{twitter_user}?ref_src=twsrc%5Etfw" target="_blank" class="twitter-follow-button" data-show-count="false">Follow @{twitter_user}</a>', height=30)
 
-
+# Adding a custom footer
+footer = """
+     <style>
+     .footer {
+         font-size: 44px;
+         text-align: center;
+     }
+     </style>
+     <div class="footer"> 
+     InnerINetwork/
+     </div>
+     """
+st.markdown(footer, unsafe_allow_html=True)
