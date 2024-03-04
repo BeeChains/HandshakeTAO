@@ -3,3 +3,4 @@ requests
 bittensor
 fastapi
 uvicorn
+openai
