@@ -90,18 +90,19 @@ if st.button('Submit'):
             st.warning('Please enter a question.')
     if response.status_code == 200:
         data = response.json()
-        # The 'handshake' key is used because that's the ID for Handshake on CoinGecko
+
+# Define a function to fetch Handshake (HNS) price
+def get_hns_price():
+    url = "https://api.coingecko.com/api/v3/simple/price?ids=handshake&vs_currencies=usd"
+    response = requests.get(url)
+    if response.status_code == 200:
+        data = response.json()
+        # Ensure 'return' is used within the function scope to return the price
         return data['handshake']['usd']
     else:
-        raise Exception('Failed to retrieve data from CoinGecko.')
-
-# Display the HNS price
-try:
-    hns_price = get_hns_price()
-    # Explicitly format the string to include the dollar sign
-    st.write("The current Handshake (HNS) price is: ${} USD".format(hns_price))     
-except Exception as e:
-    st.error(f"An error occurred: {str(e)}")
+        # If something goes wrong, you can return None or raise an exception
+        # Here we return None for simplicity
+        return None
 
 # Assuming the user inputs their API key for Claude AI
 st.header('Enter your Claude AI API Key')
