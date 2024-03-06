@@ -61,12 +61,12 @@ if corcel_api_key:
                 ai_response = response_data[0]['choices'][0]['delta']['content']
                 st.write('AI Assistant says:', ai_response)
 
-            # Displaying the full JSON response
-            st.json(response_data)
-        else:
-            st.error(f"Error: Received status code {response.status_code}")
+                # Displaying the full JSON response for debugging or detailed analysis
+        st.json(response_data)
+    except (IndexError, KeyError, TypeError) as e:
+        st.error(f"Failed to extract the AI response: {e}")
 else:
-    st.warning('Please enter your Corcel API key to interact with the AI assistant.')
+    st.error(f"Error: Received status code {response.status_code}")            
 
 # Fetch and display the current $TAO price
 st.header('Current Bittensor and Handshake Price')
