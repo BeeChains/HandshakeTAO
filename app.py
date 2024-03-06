@@ -113,7 +113,7 @@ user_message = st.text_area("Your Message:")
 if user_message and st.button('Send'):
      if claude_api_key:
         # Specify the URL for the Claude AI API (replace with the actual endpoint)
-        claude_url = "https://api.openai.com/path/to/claude/endpoint"
+        claude_url = "https://api.anthropic.com/v1/messages"
 
         # Prepare the headers and payload for the POST request
         headers = {
