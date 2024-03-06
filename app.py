@@ -62,9 +62,9 @@ if corcel_api_key:
                 st.write('AI Assistant says:', ai_response)
 
                 # Displaying the full JSON response for debugging or detailed analysis
-        st.json(response_data)
-    except (IndexError, KeyError, TypeError) as e:
-        st.error(f"Failed to extract the AI response: {e}")
+                st.json(response_data)
+            except (IndexError, KeyError, TypeError) as e:
+                st.error(f"Failed to extract the AI response: {e}")
 else:
     st.error(f"Error: Received status code {response.status_code}")            
 
