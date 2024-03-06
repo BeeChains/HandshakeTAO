@@ -60,8 +60,6 @@ if corcel_api_key:
             try:
                 ai_response = response_data[0]['choices'][0]['delta']['content']
                 st.write('AI Assistant says:', ai_response)
-            except (IndexError, KeyError, TypeError):
-                st.error('Failed to extract the AI response.')
 
             # Displaying the full JSON response
             st.json(response_data)
