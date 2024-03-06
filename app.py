@@ -1,7 +1,7 @@
 import streamlit as st
 import requests
-import bittensor
 import streamlit.components.v1 as components
+import bittensor
 import socket
 import anthropic
 
@@ -106,38 +106,36 @@ except Exception as e:
 st.header('Enter your Claude AI API Key')
 claude_api_key = st.text_input('API Key:', type='password')
 
+st.header('Enter your Claude AI API Key')
+claude_api_key = st.text_input('Claude AI API Key:', type='password')
+
 st.header("Let's Chat with Claude AI")
 user_message = st.text_area("Your Message:")
 
-if user_message and st.button('Send'):
-     if claude_api_key:
-        # Specify the URL for the Claude AI API (replace with the actual endpoint)
-        claude_url = "https://api.anthropic.com/v1/messages"
+if user_message and claude_api_key and st.button('Chat with Claude AI'):
+    claude_url = "https://api.anthropic.com/v1/messages"
+    headers = {
+        "x-api-key": claude_api_key,
+        "Content-Type": "application/json"
+    }
+    payload = {
+        "model": "claude-3-opus-20240229",  # Update with your specific model identifier
+        "messages": [
+            {"role": "system", "content": "You are a helpful Assistant Super Intelligence."},
+            {"role": "user", "content": user_message}
+        ]
+    }
 
-        # Prepare the headers and payload for the POST request
-        headers = {
-            "x-api-key": claude_api_key,
-            "Content-Type": "application/json"
-        }
+    response = requests.post(claude_url, json=payload, headers=headers)
 
-        payload = {
-            "model": "claude-3-opus-20240229",  # Specify the correct model name
-            "messages": [{"role": "system", "content": "You are a helpful Assistant Super Intelligence."},
-                         {"role": "user", "content": f"{user_message}"}]
-        }
-
-        # Make the POST request to the Claude AI API
-        response = requests.post(claude_url, json=payload, headers=headers)
-
-        if response.status_code == 200:
-            response_data = response.json()
-            # Extracting and displaying the response (adjust based on the actual response structure)
-            ai_response = response_data.get('answers', [{}])[0].get('message', 'No response')
-            st.write('Claude AI says:', ai_response)
-        else:
-            st.error('Failed to get response from Claude AI.')
-else:
-     st.error('Please enter your Claude AI API key.')
+    if response.status_code == 200:
+        response_data = response.json()
+        ai_response = response_data.get('answers', [{}])[0].get('message', 'No response')
+        st.write('Claude AI says:', ai_response)
+    elif response.status_code == 401:
+        st.error('Authentication failed. Please check your Claude AI API key.')
+    else:
+        st.error(f"Error: Received status code {response.status_code}")
              
 # Add a section in your Streamlit frontend to fetch and display Bittensor network status
 st.header('Bittensor Network Status')
