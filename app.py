@@ -3,6 +3,7 @@ import requests
 import bittensor
 import streamlit.components.v1 as components
 import socket
+import anthropic
 
 hostname = socket.gethostname()
 local_ip = socket.gethostbyname(hostname)
