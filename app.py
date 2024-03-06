@@ -51,22 +51,22 @@ if corcel_api_key:
 
         response = requests.post(corcel_url, json=payload, headers=headers)
 
-        if response.status_code == 401:
-            st.error('Authentication failed. Please check your API key.')    
-        
-        if response.status_code == 200:
-            response_data = response.json()
-            # Displaying the AI's response text
-            try:
-                ai_response = response_data[0]['choices'][0]['delta']['content']
-                st.write('AI Assistant says:', ai_response)
-
-                # Displaying the full JSON response for debugging or detailed analysis
-                st.json(response_data)
-            except (IndexError, KeyError, TypeError) as e:
-                st.error(f"Failed to extract the AI response: {e}")
+    # Now, 'response' is defined, and we can check its status code.
+    if response.status_code == 401:
+        st.error('Authentication failed. Please check your API key.')
+    elif response.status_code == 200:
+        response_data = response.json()
+        try:
+            ai_response = response_data[0]['choices'][0]['delta']['content']
+            st.write('AI Assistant says:', ai_response)
+            st.json(response_data)  # Displaying the full JSON response.
+        except (IndexError, KeyError, TypeError) as e:
+            st.error(f"Failed to extract the AI response: {str(e)}")
+    else:
+        st.error(f"Error: Received status code {response.status_code}")
 else:
-    st.error(f"Error: Received status code {response.status_code}")            
+    if not user_question or not corcel_api_key:
+        st.warning('Please provide both your question and the API key.')            
 
 # Fetch and display the current $TAO price
 st.header('Current Bittensor and Handshake Price')
