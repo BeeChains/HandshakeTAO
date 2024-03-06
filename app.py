@@ -50,7 +50,10 @@ if corcel_api_key:
 
         response = requests.post(corcel_url, json=payload, headers=headers)
 
-        if response.status_code == 200:
+         if response.status_code == 401:
+                st.error('Authentication failed. Please check your API key.')    
+        
+         if response.status_code == 200:
             response_data = response.json()
             # Displaying the AI's response text
             try:
