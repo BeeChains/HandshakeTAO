@@ -117,7 +117,7 @@ if user_message and st.button('Send'):
 
         # Prepare the headers and payload for the POST request
         headers = {
-            "Authorization": f"Bearer {claude_api_key}",
+            "x-api-key": claude_api_key,
             "Content-Type": "application/json"
         }
 
