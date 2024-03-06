@@ -103,8 +103,43 @@ try:
 except Exception as e:
     st.error(f"An error occurred: {str(e)}")
 
-# Assume the user inputs their Corcel API key and other interactions here...
+# Assuming the user inputs their API key for Claude AI
+st.header('Enter your Claude AI API Key')
+claude_api_key = st.text_input('API Key:', type='password')
 
+st.header("Let's Chat with Claude AI")
+user_message = st.text_area("Your Message:")
+
+if user_message and st.button('Send'):
+     if claude_api_key:
+        # Specify the URL for the Claude AI API (replace with the actual endpoint)
+        claude_url = "https://api.openai.com/path/to/claude/endpoint"
+
+        # Prepare the headers and payload for the POST request
+        headers = {
+            "Authorization": f"Bearer {claude_api_key}",
+            "Content-Type": "application/json"
+        }
+
+        payload = {
+            "model": "MODEL_NAME",  # Specify the correct model name
+            "messages": [{"role": "system", "content": "You are a helpful assistant."},
+                         {"role": "user", "content": f"{user_message}"}]
+        }
+
+        # Make the POST request to the Claude AI API
+        response = requests.post(claude_url, json=payload, headers=headers)
+
+        if response.status_code == 200:
+            response_data = response.json()
+            # Extracting and displaying the response (adjust based on the actual response structure)
+            ai_response = response_data.get('answers', [{}])[0].get('message', 'No response')
+            st.write('Claude AI says:', ai_response)
+        else:
+            st.error('Failed to get response from Claude AI.')
+    else:
+        st.error('Please enter your Claude AI API key.')
+             
 # Add a section in your Streamlit frontend to fetch and display Bittensor network status
 st.header('Bittensor Network Status')
 
