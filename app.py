@@ -123,8 +123,8 @@ if user_message and st.button('Send'):
         }
 
         payload = {
-            "model": "claude-2.1",  # Specify the correct model name
-            "messages": [{"role": "system", "content": "You are a helpful assistant."},
+            "model": "claude-3-opus-20240229",  # Specify the correct model name
+            "messages": [{"role": "system", "content": "You are a helpful Assistant Super Intelligence."},
                          {"role": "user", "content": f"{user_message}"}]
         }
 
