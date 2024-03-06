@@ -137,8 +137,8 @@ if user_message and st.button('Send'):
             st.write('Claude AI says:', ai_response)
         else:
             st.error('Failed to get response from Claude AI.')
-    else:
-        st.error('Please enter your Claude AI API key.')
+        else:
+            st.error('Please enter your Claude AI API key.')
              
 # Add a section in your Streamlit frontend to fetch and display Bittensor network status
 st.header('Bittensor Network Status')
