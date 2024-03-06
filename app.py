@@ -108,9 +108,6 @@ def get_hns_price():
 st.header('Enter your Claude AI API Key')
 claude_api_key = st.text_input('API Key:', type='password')
 
-st.header('Enter your Claude AI API Key')
-claude_api_key = st.text_input('Claude AI API Key:', type='password')
-
 st.header("Let's Chat with Claude AI")
 user_message = st.text_area("Your Message:")
 
