@@ -40,56 +40,47 @@ except Exception as e:
 # Function to fetch Handshake (HNS) price
 def get_hns_price():
     url = "https://api.coingecko.com/api/v3/simple/price?ids=handshake&vs_currencies=usd"
-    response = requests.get(url)# User provides their API key for Corcel
-st.header('Enter your Corcel API Key')
-corcel_api_key = st.text_input('Corcel API Key:', type='password')
+         
+    response = requests.get(url)
+# User provides their API key for Corcel
+# User inputs their Corcel Cortex API key
+st.header('Enter your Corcel Cortex API Key')
+corcel_api_key = st.text_input('API Key:', type='password')
 
-# Providing a text box for the user to ask a question
-st.header('Ask the AI Assistant Anything')
-user_question = st.text_input('What would you like to ask?')
+if corcel_api_key:
+    st.header('Ask the Cortex AI Anything')
+    user_input = st.text_area('Enter your prompt:')
 
-# When the 'Submit' button is pressed, the application checks for user input and API key
-if st.button('Submit'):
-    # Checks if both the API key and user question are provided
-    if corcel_api_key and user_question:
-        corcel_url = "https://api.corcel.io/cortext/text"
+    if user_input and st.button('Submit'):
+        url = "https://api.corcel.io/v1/text/cortext/chat"
         payload = {
             "model": "cortext-ultra",
             "stream": False,
-            "miners_to_query": 4,
-            "top_k_miners_to_query": 40,
-            "ensure_responses": True,
-            "messages": [{"role": "user", "content": user_question}]
+            "prompt": user_input  # Assuming the API expects a 'prompt' field
         }
         headers = {
             "accept": "application/json",
             "content-type": "application/json",
-            "Authorization": corcel_api_key
+            "Authorization": f"Bearer {corcel_api_key}"
         }
 
-        response = requests.post(corcel_url, json=payload, headers=headers)
+        response = requests.post(url, json=payload, headers=headers)
 
-        # Handling the response based on the status code
-        if response.status_code == 401:
-            st.error('Authentication failed. Please check your API key.')
-        elif response.status_code == 200:
+        if response.status_code == 200:
             response_data = response.json()
             try:
-                ai_response = response_data[0]['choices'][0]['delta']['content']
-                st.write('AI Assistant says:', ai_response)
-                st.json(response_data)
-            except (IndexError, KeyError, TypeError) as e:
-                st.error(f"Failed to extract the AI response: {str(e)}")
+                # Adjust the following line based on how the response data is structured
+                ai_response = response_data.get('text', 'No response returned')
+                st.write('Cortex AI says:', ai_response)
+            except KeyError:
+                st.error('Failed to extract the AI response.')
+        elif response.status_code == 401:
+            st.error('Authentication failed. Please check your API key.')
         else:
-            st.error(f"Error: Received status code {response.status_code}")
-    else:
-        # Display warnings if either the API key or the question is missing
-        if not corcel_api_key:
-            st.warning('Please enter your Corcel API key.')
-        if not user_question:
-            st.warning('Please enter a question.')
-    if response.status_code == 200:
-        data = response.json()
+            # More detailed error message from API response
+            st.error(f"Error: Received status code {response.status_code}. Details: {response.text}")
+else:
+    st.warning('Please enter your Corcel Cortex API key.')
 
 # Define a function to fetch Handshake (HNS) price
 def get_hns_price():
