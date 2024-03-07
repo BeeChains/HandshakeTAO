@@ -104,37 +104,35 @@ def get_hns_price():
         # Here we return None for simplicity
         return None
 
-# Assuming the user inputs their API key for Claude AI
+# User inputs their API key
 st.header('Enter your Claude AI API Key')
 claude_api_key = st.text_input('API Key:', type='password')
 
 st.header("Let's Chat with Claude AI")
 user_message = st.text_area("Your Message:")
 
-if user_message and claude_api_key and st.button('Chat with Claude AI'):
-    claude_url = "https://api.anthropic.com/v1/messages"
-    headers = {
-        "x-api-key": claude_api_key,
-        "Content-Type": "application/json"
-    }
-    payload = {
-        "model": "claude-3-opus-20240229",  # Update with your specific model identifier
-        "messages": [
-            {"role": "system", "content": "You are a helpful Assistant Super Intelligence."},
-            {"role": "user", "content": user_message}
-        ]
-    }
+if user_message and claude_api_key and st.button('Send'):
+    try:
+        # Initialize the Anthropic client with the API key
+        client = anthropic.Anthropic(api_key=claude_api_key)
+        
+        # Create a message to Claude AI and capture the response
+        message = client.messages.create(
+            model="claude-3-opus-20240229",
+            max_tokens=1000,
+            temperature=0.0,
+            system="Respond only in Yoda-speak.",
+            messages=[{"role": "user", "content": user_message}]
+        )
+        
+        # Display the response from Claude AI
+        st.write('Claude AI says:', message.content)
 
-    response = requests.post(claude_url, json=payload, headers=headers)
-
-    if response.status_code == 200:
-        response_data = response.json()
-        ai_response = response_data.get('answers', [{}])[0].get('message', 'No response')
-        st.write('Claude AI says:', ai_response)
-    elif response.status_code == 401:
-        st.error('Authentication failed. Please check your Claude AI API key.')
-    else:
-        st.error(f"Error: Received status code {response.status_code}")
+    except Exception as e:
+        st.error(f"An error occurred: {str(e)}")
+else:
+    if not claude_api_key:
+        st.error('Please enter your Claude AI API key.')
              
 # Add a section in your Streamlit frontend to fetch and display Bittensor network status
 st.header('Bittensor Network Status')
