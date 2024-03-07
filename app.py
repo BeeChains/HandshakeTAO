@@ -63,7 +63,6 @@ if st.button('Submit'):
             "top_k_miners_to_query": 40,
             "ensure_responses": True,
             "messages": [{"role": "user", "content": user_question}]
-            "prompt": user_input  # Assuming the API expects a 'prompt' field
 
 }
         headers = {
