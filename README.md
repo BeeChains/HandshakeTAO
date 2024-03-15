@@ -1,6 +1,6 @@
 # HandshakeTAO
 τao/
-🛑UNDER CONSTRUCTION FOR DEMO ONLY ⚠
+🛑LIVE CONSTRUCTION ⚠
 # HandshakeTAO Streamlit Application
 
 ## Overview
