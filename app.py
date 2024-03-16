@@ -47,7 +47,7 @@ st.header('Enter your Corcel API Key')
 corcel_api_key = st.text_input('Corcel API Key:', type='password')
 
 # Providing a text box for the user to ask a question
-st.header('Ask the AI Assistant Anything')
+st.header('Ask Inner I AI Assistant Anything')
 user_question = st.text_input('What would you like to ask?')
 
 if st.button('Submit'):
@@ -120,7 +120,7 @@ if user_message and claude_api_key and st.button('Send'):
         )
         
         # Display the response from Claude AI
-        st.write('Claude AI says:', message.content)
+        st.write('SupaAI says:', message.content)
 
     except Exception as e:
         st.error(f"An error occurred: {str(e)}")
